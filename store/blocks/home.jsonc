@@ -1,0 +1,45 @@
+{
+  "store.home": { 
+    "blocks": [
+      "rich-text",
+      "flex-layout.row#shelf"
+    ]
+  },
+  "rich-text": { 
+    "props": { 
+      "text": "Skeleton",
+      "textAlignment": "CENTER",
+      "textPosition": "CENTER",
+      "font": "t-heading-1"
+    }
+  }
+  // "skeleton": {
+  //   "children": [
+  //     "product-summary-name",
+  //     "product-summary-description",
+  //     "product-summary-image",
+  //     "product-summary-price",
+  //     "product-summary-sku-selector",
+  //     "product-summary-buy-button"
+  //   ]
+  // },
+  // "product-summary.shelf": {
+  //   "children": ["skeleton"]
+  // },
+  // "list-context.product-list": {
+  //   "blocks": ["product-summary.shelf"],
+  //   "children": ["slider-layout"]
+  // },
+  // "slider-layout": {
+  //   "props": {
+  //     "itemsPerPage": {
+  //       "desktop": 6,
+  //       "tablet": 4,
+  //       "phone": 2
+  //     },
+  //     "infinite": true,
+  //     "showNavigationArrows": "desktopOnly",
+  //     "blockClass": "carousel"
+  //   }
+  // }
+}

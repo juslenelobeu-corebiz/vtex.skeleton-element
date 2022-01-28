@@ -1,0 +1,42 @@
+{
+  "flex-layout.row#shelf": {
+    "title": "Shelf novidades",
+    "children": [
+        "flex-layout.col#shelf"
+    ],
+    "props": {
+        "blockClass": "shelf"
+    }
+  },
+  "flex-layout.col#shelf": {
+      "children": ["list-context.product-list#shelf"],
+      "props": {
+          "preventVerticalStretch": true,
+          "blockClass": "shelf"
+      }
+  },
+  "list-context.product-list#shelf": {
+      "title": "Shelf Configs",
+      "blocks": ["product-summary.shelf"],
+      "children": [
+          "slider-layout#shelf"
+      ],
+      "props": {
+          "orderBy": "OrderByTopSaleDESC"
+      }
+  },
+  "slider-layout#shelf": {
+      "props": {
+          "itemsPerPage": {
+              "desktop": 4,
+              "tablet": 3,
+              "phone": 2
+          },
+          "infinite": true,
+          "fullWidth": true,
+          "showNavigationArrows": "always",
+          "showPaginationDots": "mobileOnly",
+          "blockClass": "shelf"
+      }
+  }
+}

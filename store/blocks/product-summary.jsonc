@@ -1,0 +1,36 @@
+{
+  "product-summary.shelf": {
+      "children": [ "skeleton" ]
+  },
+  "skeleton": {
+      "children": [ 
+        "product-summary-image",
+        "product-summary-brand",
+        "product-summary-name",
+        "product-list-price",
+        "product-selling-price",
+        "product-summary-space",
+        "add-to-cart-button#shelf"
+      ]
+  },
+  "product-summary-image": {
+      "props": {
+          "maxHeight": 380,
+          "badgeText": "OFF",
+          "hoverImage": {
+              "criteria": "label",
+              "label": "vitrine2"
+          }
+      }
+  },
+  "product-summary-name": {
+      "props": {
+          "tag": "h3"
+      }
+  },
+  "add-to-cart-button#shelf": {
+      "props": {
+          "text": "Comprar"
+      }
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "name": "skeleton-element",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "dependencies": {
+    "concurrently": "^5.3.0",
+    "global": "^4.4.0"
+  },
+  "devDependencies": {
+    "sass": "^1.32.7"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "concurrently 'yarn:vtex-link'  'yarn:sass' ",
+    "vtex-link": "vtex link",
+    "sass": "concurrently \"sass --watch --no-source-map styles/scss:styles/css --style compressed\" \"sass --watch --no-source-map react/styles:react --style compressed\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/juslenelobeu-corebiz/vtex.skeleton-element.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/juslenelobeu-corebiz/vtex.skeleton-element/issues"
+  },
+  "homepage": "https://github.com/juslenelobeu-corebiz/vtex.skeleton-element#readme"
+}

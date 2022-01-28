@@ -1,0 +1,6 @@
+{
+  "skeleton": {
+    "component": "Skeleton",
+    "composition": "children"
+  }
+}
