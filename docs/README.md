@@ -48,7 +48,7 @@ Informei no arquivo `interfaces.json`:
   "composition": "children"
 }
 ```
-Como validação, utilizei o `hook` da VTEX IO, [useOnView]('https://github.com/vtex-apps/on-view'). 
+Como validação, utilizei o `hook` da VTEX IO, [useOnView](https://github.com/vtex-apps/on-view). 
 ```text
 💡 Nele é possível informar uma referência e aplicar uma ação quando essa referência estiver visível no viewport
 ```
