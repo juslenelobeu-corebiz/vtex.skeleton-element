@@ -14,19 +14,15 @@ const Skeleton = ({ children }) => {
     },
   })
 
-  if (loading) {
-    return (
-      <div ref={ element }>
-        <SkeletonElement type="item" width="300px" height="auto">
-          <SkeletonElement type="image" width="100%" height="400px"/>
-          <SkeletonElement type="text" width="80%" height="15px"/>
-          <SkeletonElement type="text" width="50%" height="10px"/>
-        </SkeletonElement>
-      </div>
-    ) 
-  }
-
-  return <div ref={ element }>{ children }</div> 
+  return loading ? (
+    <div ref={ element }>
+      <SkeletonElement type="item" width="300px" height="auto">
+        <SkeletonElement type="image" width="100%" height="300px"/>
+        <SkeletonElement type="text" width="80%" height="15px"/>
+        <SkeletonElement type="text" width="50%" height="10px"/>
+      </SkeletonElement>
+    </div>
+  ) : <div ref={ element }>{ children }</div>
 
 };
 

@@ -1,62 +1,123 @@
-# Minimum Boilerplate Theme
+# Skeleton Component Custom
 
-The minimum Boilerplate Theme is basic store front model based on the VTEX IO Store Framework.
+Componente criado para encapsular blocos nativos da VTEX IO, exibindo um loading personalizado até que o `children` (_bloco nativo informado_) seja detectado no viewport.
 
-It should be used only when you want to start a new store theme without any pre-set configurations, as is the case with [Store Theme](https://github.com/vtex-apps/store-theme). 
-
-While Store Theme gives developers a ready-to-go default store front structure, the Minimum Boilerplate Theme will enable you to build you store freely from scratch.
-
-## Configuration
-
-### Step 1 -  Basic setup
-
-Access the VTEX IO [basic setup guide](https://vtex.io/docs/getting-started/build-stores-with-store-framework/1) and follow all the given steps. 
-
-By the end of the setup, you should have the VTEX command line interface (Toolbelt) installed along with a developer workspace you can work in.
-
-### Step 2 - Cloning the Minimum Boilerplate Theme repository
-
-[Clone](https://help.github.com/en/github/creating-cloning-and-archiving-repositories/cloning-a-repository) this repository to your local files to be able to effectively start working on it.
-
-Then, access the repository's directory using your terminal. 
-
-### Step 3 - Editing the `Manifest.json`
-
-Once in the repository directory, it is time to edit the Minimum Boilerplate `manifest.json` file. 
-
-Once you are in the file, you must replace the `vendor` and `account` values. `vendor` is the account name you are working on and `account` is anything you want to name your theme. For example:
+## Descrição:
+Nesse exemplo eu encapsulei os `children's` do `product-summary.shelf` no componente custom `skeleton`.
 
 ```json
-{
-  "vendor": "storecomponents",
-  "name": "my-test-theme",
+"product-summary.shelf": {
+    "children": [ "skeleton" ]
+},
+"skeleton": {
+    "children": [ 
+      "product-summary-image",
+      "product-summary-brand",
+      "product-summary-name",
+      "product-list-price",
+      "product-selling-price",
+      "product-summary-space",
+      "add-to-cart-button#shelf"
+    ]
+},
+"product-summary-image": {
+    "props": {
+        "maxHeight": 380,
+        "badgeText": "OFF",
+        "hoverImage": {
+            "criteria": "label",
+            "label": "vitrine2"
+        }
+    }
+},
+"product-summary-name": {
+    "props": {
+        "tag": "h3"
+    }
+},
+"add-to-cart-button#shelf": {
+    "props": {
+        "text": "Comprar"
+    }
 }
 ```
-
-### Step 4 -  Installing required apps
-
-In order to use Store Framework and work on your store theme, it is needed to have both `vtex.store-sitemap` and `vtex.store` installed.
-
-Run  `vtex list`  and check whether those apps are already installed. 
-
-If they aren't, run the following command to install them: `vtex install vtex.store-sitemap vtex.store -f`
-
-### Step 5 -  Uninstalling any existing theme
-
-By running `vtex list`,  you can verify if any theme is installed.
-
-It is common to already have a `vtex.store-theme`  installed when you start the store's front development process. 
-
-Therefore, if you find it in the app's list, copy its name and use it together with the command `vtex uninstall`. For example:
-
+Informei no arquivo `interfaces.json`:
 ```json
-vtex uninstall vtex.store-theme
+"skeleton": {
+  "component": "Skeleton",
+  "composition": "children"
+}
 ```
+Como validação, utilizei o `hook` da VTEX IO, [useOnView]('https://github.com/vtex-apps/on-view'). 
+```text
+💡 Nele é possível informar uma referência e aplicar uma ação quando essa referência estiver visível no viewport
+```
+## Component Skeleton
+```js
+// index
+import React, { useState, useRef } from 'react';
+import SkeletonElement from './SkeletonElement';
+import { useOnView } from 'vtex.on-view'
 
-### Step 6- Run and preview your store
+const Skeleton = ({ children }) => {
+  const [ loading, setLoading ] = useState(true)
+  const element = useRef(null)
 
-Then time has come to upload all the changes you made in your local files to the platform. For that, use the `vtex link` command. 
+  useOnView({
+    ref: element,
+    once: true,
+    onView: () => {
+      setLoading(false)
+    },
+  })
 
-If the process runs without any errors, the following message will be displayed: `App linked successfully`. Then, run the `vtex browse` command to open a browser window having your linked store in it.
+  return loading ? (
+    <div ref={ element }>
+      <SkeletonElement type="item" width="300px" height="auto">
+        <SkeletonElement type="image" width="100%" height="300px"/>
+        <SkeletonElement type="text" width="80%" height="15px"/>
+        <SkeletonElement type="text" width="50%" height="10px"/>
+      </SkeletonElement>
+    </div>
+  ) : <div ref={ element }>{ children }</div>
 
-This will enable you to see the applied changes in real time, through the account and workspace in which you are working.
+};
+
+export default Skeleton;
+```
+Utilizei o `useRef` para referenciar no `return` os blocos que desejo exibir (`skeleton` e `children`), e para alternar entre eles, criei um estado de `loading` com valor inicial `true` e dentro do `hook` `useOnView` eu mudo o valor do estado `loading` para `false` quando existir o retorno do `children` no viewport.
+
+## Component SkeletonElement
+
+Para a estrutura do `loading skeleton` eu criei um componente passando `props` nos estilos inline e classes:
+```js
+// SkeletonElement
+import React from 'react';
+import './SkeletonElement.global.css'
+
+const SkeletonElement = ({ type, width, height, children }) => {
+  const classes = `skeleton ${ type }`
+  const mystyle = {
+    width: width,
+    height: height
+  };
+
+  return (
+    <div className={classes} style={mystyle}>{ children }</div>
+  );
+};
+
+export default SkeletonElement;
+```
+Assim, quando chamar esse componente é possível informar o tipo, conforme os estinos no `css` e as medidas passando pelas `props`.
+
+## Informações adicionais:
+
+Para utilizar este `hook` da VTEX IO é necessário instalar a dependência:
+```bash
+vtex install vtex.on-view@1.x
+```
+E adicionar a linha no `manifest.json`
+```json
+"vtex.on-view": "1.x"
+```
