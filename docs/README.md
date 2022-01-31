@@ -1,6 +1,8 @@
 # Skeleton Component Custom
 
-Componente criado para encapsular blocos nativos da VTEX IO, exibindo um loading personalizado até que o `children` (_bloco nativo informado_) seja detectado no viewport.
+Componente criado para encapsular blocos nativos da VTEX IO, exibindo um loading personalizado até que o `children` (_bloco nativo informado_) seja detectado no viewport para exibir no lugar do loading.
+
+![useOnView](screen-skeleton.png)
 
 ## Descrição:
 Nesse exemplo eu encapsulei os `children's` do `product-summary.shelf` no componente custom `skeleton`.
@@ -19,38 +21,14 @@ Nesse exemplo eu encapsulei os `children's` do `product-summary.shelf` no compon
       "product-summary-space",
       "add-to-cart-button#shelf"
     ]
-},
-"product-summary-image": {
-    "props": {
-        "maxHeight": 380,
-        "badgeText": "OFF",
-        "hoverImage": {
-            "criteria": "label",
-            "label": "vitrine2"
-        }
-    }
-},
-"product-summary-name": {
-    "props": {
-        "tag": "h3"
-    }
-},
-"add-to-cart-button#shelf": {
-    "props": {
-        "text": "Comprar"
-    }
 }
 ```
-Informei no arquivo `interfaces.json`:
+Fiz a chamada do componente no arquivo `interfaces.json`:
 ```json
 "skeleton": {
   "component": "Skeleton",
   "composition": "children"
 }
-```
-Como validação, utilizei o `hook` da VTEX IO, [useOnView](https://github.com/vtex-apps/on-view). 
-```text
-💡 Nele é possível informar uma referência e aplicar uma ação quando essa referência estiver visível no viewport
 ```
 ## Component Skeleton
 ```js
@@ -85,11 +63,18 @@ const Skeleton = ({ children }) => {
 
 export default Skeleton;
 ```
-Utilizei o `useRef` para referenciar no `return` os blocos que desejo exibir (`skeleton` e `children`), e para alternar entre eles, criei um estado de `loading` com valor inicial `true` e dentro do `hook` `useOnView` eu mudo o valor do estado `loading` para `false` quando existir o retorno do `children` no viewport.
+
+## Validação
+Como validação, utilizei o `hook` da VTEX IO, [useOnView](https://github.com/vtex-apps/on-view) para verificar se o elemento já esta visível e o `hook` do React `useState` para criar um estado boleano, modificando esse estado após a verificação do `onView`. 
+```text
+💡 Utilizando o useOnView é possível informar uma referência com o useRef() e aplicar uma ação quando essa referência estiver visível no viewport.
+```
+
+Utilizei o `useRef` para referenciar no `return` os blocos que desejo exibir (`skeleton` e `children`), e para alternar entre eles, criei um estado de `loading` com valor inicial `true` e dentro do `hook` `useOnView` eu mudo o valor do estado `loading` para `false` quando existir o retorno no viewport da referência criada.
 
 ## Component SkeletonElement
 
-Para a estrutura do `loading skeleton` eu criei um componente passando `props` nos estilos inline e classes:
+Para a estrutura do `loading skeleton` eu criei um componente onde a modificação individual ocorre quando são passadas, via `props`, as propriedades de referência de cada tipo (`item`, `image` e `text`), que poderão ser modificadas conforme a necessidade de utilização em seu projeto.
 ```js
 // SkeletonElement
 import React from 'react';
@@ -109,11 +94,14 @@ const SkeletonElement = ({ type, width, height, children }) => {
 
 export default SkeletonElement;
 ```
-Assim, quando chamar esse componente é possível informar o tipo, conforme os estinos no `css` e as medidas passando pelas `props`.
-
+Assim, quando chamar esse componente é necessário informar o tipo e suas dimensões. 
+Ex.: 
+```jsx 
+<SkeletonElement type="image" width="100%" height="400px"/>
+```
 ## Informações adicionais:
 
-Para utilizar este `hook` da VTEX IO é necessário instalar a dependência:
+Para utilizar `hook useOnView` da VTEX IO é necessário instalar a dependência:
 ```bash
 vtex install vtex.on-view@1.x
 ```
